@@ -46,13 +46,13 @@
   "hooks": {},
   "enabledPlugins": {
     "bits@bits-plugins": false,
-    "kseto-core@kseto-plugins": true,
+    "kainoaseto-core@kainoaseto-plugins": true,
     "claude-code-wakatime@wakatime": true,
     "code-simplifier@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
-    "kseto-plugins": {
+    "kainoaseto-plugins": {
       "source": {
         "source": "directory",
         "path": "/Users/kseto/Workspace/vimrc/plugins"
