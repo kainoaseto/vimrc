@@ -1,7 +1,7 @@
 [user]
-  name = Aaron Batilo
-  email = AaronBatilo@gmail.com
-  signingkey = /Users/abatilo/.ssh/id_ed25519.pub
+  name = Kainoa Seto
+  email = kainoa.seto@gmail.com
+  signingkey = /Users/kseto/.ssh/id_ed25519.pub
 [core]
   excludesfile = ~/.gitignore
   pager = less -FX
@@ -38,5 +38,5 @@
 	process = git-lfs filter-process
 	required = true
 [spice "branchCreate"]
-	prefix = abatilo/
+	prefix = kseto/
 	commit = false

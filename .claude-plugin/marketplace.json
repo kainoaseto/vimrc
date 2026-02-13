@@ -1,13 +1,13 @@
 {
-  "name": "abatilo-plugins",
+  "name": "kseto-plugins",
   "owner": {
-    "name": "abatilo"
+    "name": "kseto"
   },
   "plugins": [
     {
-      "name": "abatilo-core",
-      "source": "./plugins/abatilo-core",
-      "description": "Core commands, skills, and hooks for abatilo's Claude Code setup"
+      "name": "kseto-core",
+      "source": "./plugins/kseto-core",
+      "description": "Core commands, skills, and hooks for kseto's Claude Code setup"
     }
   ]
 }

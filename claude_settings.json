@@ -29,45 +29,43 @@
       "Bash(ls:*)",
       "Bash(mise:*)",
       "Bash(mkdir:*)",
-      "Bash(mv:*)",
       "Bash(rg:*)",
-      "Bash(rm:*)",
       "Bash(sed:*)",
       "Bash(terraform:*)",
       "Bash(yarn:*)",
       "WebFetch(domain:*)",
       "mcp__deepwiki"
     ],
-    "defaultMode": "bypassPermissions",
+    "defaultMode": "acceptEdits",
     "additionalDirectories": [
-      "/Users/abatilo/work",
-      "/Users/abatilo/Documents/notes"
+      "/Users/kseto/Workspace",
+      "/Users/kseto/Documents/notes"
     ]
   },
   "model": "opus",
   "hooks": {},
   "enabledPlugins": {
     "bits@bits-plugins": false,
-    "abatilo-core@abatilo-plugins": true,
+    "kseto-core@kseto-plugins": true,
     "claude-code-wakatime@wakatime": true,
     "code-simplifier@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
-    "abatilo-plugins": {
+    "kseto-plugins": {
       "source": {
         "source": "directory",
-        "path": "/Users/abatilo/abatilo/vimrc/plugins"
+        "path": "/Users/kseto/Workspace/vimrc/plugins"
       }
     },
     "bits-plugins": {
       "source": {
         "source": "directory",
-        "path": "/Users/abatilo/abatilo/bits"
+        "path": "/Users/kseto/Workspace/bits"
       }
     }
   },
   "alwaysThinkingEnabled": true,
-  "teammateMode": "in-process",
-  "fastMode": true
+  "fastMode": true,
+  "teammateMode": "in-process"
 }
