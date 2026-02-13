@@ -23,6 +23,8 @@
       "Bash(git:*)",
       "Bash(go:*)",
       "Bash(grep:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
       "Bash(helm:*)",
       "Bash(kubectl:*)",
       "Bash(kustomize:*)",
@@ -36,7 +38,7 @@
       "WebFetch(domain:*)",
       "mcp__deepwiki"
     ],
-    "defaultMode": "acceptEdits",
+    "defaultMode": "bypassPermissions",
     "additionalDirectories": [
       "/Users/kseto/Workspace",
       "/Users/kseto/Documents/notes"
@@ -66,6 +68,6 @@
     }
   },
   "alwaysThinkingEnabled": true,
-  "fastMode": true,
-  "teammateMode": "in-process"
+  "teammateMode": "in-process",
+  "skipDangerousModePermissionPrompt": true
 }
