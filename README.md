@@ -41,6 +41,6 @@ Run the following command:
 This repo includes a Claude Code plugin marketplace. To install:
 
 ```bash
-/plugin marketplace add kseto/vimrc
-/plugin install kseto-core@kseto-plugins
+/plugin marketplace add kainoaseto/vimrc
+/plugin install kainoaseto-core@kainoaseto-plugins
 ```

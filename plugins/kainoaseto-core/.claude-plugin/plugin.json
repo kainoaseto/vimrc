@@ -1,0 +1,5 @@
+{
+  "name": "kainoaseto-core",
+  "version": "0.13.1",
+  "description": "Core commands, skills, and hooks for kainoaseto's Claude Code setup"
+}

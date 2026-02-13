@@ -1,13 +1,13 @@
 {
-  "name": "kseto-plugins",
+  "name": "kainoaseto-plugins",
   "owner": {
-    "name": "kseto"
+    "name": "kainoaseto"
   },
   "plugins": [
     {
-      "name": "kseto-core",
-      "source": "./plugins/kseto-core",
-      "description": "Core commands, skills, and hooks for kseto's Claude Code setup"
+      "name": "kainoaseto-core",
+      "source": "./plugins/kainoaseto-core",
+      "description": "Core commands, skills, and hooks for kainoaseto's Claude Code setup"
     }
   ]
 }
