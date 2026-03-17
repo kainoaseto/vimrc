@@ -40,34 +40,27 @@
     ],
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
-      "/Users/kseto/Workspace",
-      "/Users/kseto/Documents/notes"
+      "/Users/kainoa/Workspace",
+      "/Users/kainoa/Documents/notes"
     ]
   },
   "model": "opus",
   "hooks": {},
   "enabledPlugins": {
-    "bits@bits-plugins": false,
-    "kainoaseto-core@kainoaseto-plugins": true,
+    "bits@bits-plugins": true,
     "claude-code-wakatime@wakatime": true,
     "code-simplifier@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
-    "kainoaseto-plugins": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/kseto/Workspace/vimrc/plugins"
-      }
-    },
     "bits-plugins": {
       "source": {
         "source": "directory",
-        "path": "/Users/kseto/Workspace/bits"
+        "path": "/Users/kainoa/Workspace/bits"
       }
     }
   },
   "alwaysThinkingEnabled": true,
-  "teammateMode": "in-process",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "teammateMode": "in-process"
 }
