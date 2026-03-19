@@ -51,7 +51,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay '/Users/abatilo/.claude/sounds/se000.win32#50.wav' &",
+            "command": "afplay '/Users/kseto/.claude/sounds/se000.win32#50.wav' &",
             "async": true
           }
         ]
@@ -64,8 +64,7 @@
     "claude-code-wakatime@wakatime": true,
     "gopls-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
-    "support@cw-plugins": true,
-    "abatilo-core@abatilo-plugins": true
+    "support@cw-plugins": true
   },
   "extraKnownMarketplaces": {
     "kainoaseto-plugins": {
