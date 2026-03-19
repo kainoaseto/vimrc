@@ -47,7 +47,7 @@
   "model": "opus",
   "hooks": {},
   "enabledPlugins": {
-    "bits@bits-plugins": false,
+    "bits@bits-plugins": true,
     "kainoaseto-core@kainoaseto-plugins": true,
     "claude-code-wakatime@wakatime": true,
     "code-simplifier@claude-plugins-official": true,
@@ -68,6 +68,6 @@
     }
   },
   "alwaysThinkingEnabled": true,
-  "teammateMode": "in-process",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "teammateMode": "in-process"
 }
