@@ -1,14 +1,18 @@
-model = "gpt-5.3-codex"
+model = "gpt-5.4"
 model_reasoning_effort = "xhigh"
 model_reasoning_summary = "detailed"
+model_context_window = 1000000
+model_auto_compact_token_limit = 600000
 model_verbosity = "high"
 file_opener = "none"
 show_raw_agent_reasoning = true
 sandbox_mode = "danger-full-access"
 approval_policy = "never"
 notify = ["codex-wakatime"]
+model_instructions_file = "/Users/abatilo/abatilo/vimrc/codex_mcp_instructions.md"
 personality = "pragmatic"
 web_search = "live"
+service_tier = "fast"
 
 [shell_environment_policy]
 inherit = "all"
@@ -16,3 +20,7 @@ ignore_default_excludes = true
 
 [notice.model_migrations]
 "gpt-5.2" = "gpt-5.2-codex"
+
+[mcp_servers.chrome]
+command = "npx"
+args = ["chrome-devtools-mcp@latest", "--auto-connect"]
