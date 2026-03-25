@@ -92,6 +92,70 @@ When the plan is ready, it should contain:
 - Test cases and acceptance criteria
 - Explicit assumptions and defaults chosen
 
+## Progress Tracking
+
+You MUST write progress to bits-compatible task files so that observers have real-time visibility into your work. This is non-negotiable — without it, your work is invisible during long-running sessions.
+
+### Setup
+
+At the start of every thread, determine the bits directory:
+1. Find the nearest `.git` directory from the working directory to get the project root path.
+2. Sanitize: replace all non-alphanumeric characters with `-`, trim leading/trailing `-`.
+3. The bits directory is `~/.bits/<sanitized-path>/`.
+
+### File Format
+
+Each task is a markdown file with YAML frontmatter at `~/.bits/<project-path>/cx-<short-id>.md`:
+
+```markdown
+---
+id: "cx-<short-id>"
+title: 'Codex: <brief description of what you are doing>'
+status: active
+priority: medium
+created_at: "<RFC3339 timestamp>"
+---
+
+<Progress log — append to this as you work>
+```
+
+- **IDs** must be prefixed with `cx-` to avoid collisions with user tasks (e.g., `cx-a1b`, `cx-f3`).
+- Generate the short ID portion as 2-4 random alphanumeric characters.
+
+### Lifecycle
+
+1. **On thread start:** Create a task file with `status: active`. Title should describe the planning topic.
+2. **During work:** Append progress to the markdown body as you complete meaningful steps. Update at least once per phase transition. Write what you're exploring, what you've found, and what questions remain.
+3. **On thread end:** Set `status: closed` and add `close_reason` to frontmatter summarizing the outcome.
+
+### Example
+
+```markdown
+---
+id: "cx-r7k"
+title: 'Codex: Plan auth middleware redesign'
+status: active
+priority: medium
+created_at: "2026-03-24T01:30:00Z"
+---
+
+## Phase 1: Environment
+- Explored existing auth middleware in `pkg/auth/`
+- Found 3 session storage backends: redis, postgres, memory
+- Current token format is opaque, not JWT
+
+## Phase 2: Intent
+- Goal: migrate to JWT with refresh tokens
+- Constraint: must support existing redis sessions during migration
+- Open question: token expiry window — waiting on user input
+```
+
+### Rules
+
+- ALWAYS create the task file before doing any substantive work.
+- NEVER skip progress updates — the whole point is real-time visibility.
+- Keep updates concise but informative. An observer should understand what you're doing and where you are.
+
 ## Thread Context
 
 Conversations happen in threads. Reference earlier points when relevant. Build on what's been discussed. Continue until the plan is decision-complete.
