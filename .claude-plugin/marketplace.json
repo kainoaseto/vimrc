@@ -8,6 +8,11 @@
       "name": "kainoaseto-core",
       "source": "./plugins/kainoaseto-core",
       "description": "Core commands, skills, and hooks for kainoaseto's Claude Code setup"
+    },
+    {
+      "name": "code-reviewer",
+      "source": "./plugins/code-reviewer",
+      "description": "Multi-agent code and spec review — spec review, issue-to-spec, PR feedback handling, and self-review loop"
     }
   ]
 }

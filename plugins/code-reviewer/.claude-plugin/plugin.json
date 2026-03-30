@@ -1,0 +1,5 @@
+{
+  "name": "code-reviewer",
+  "version": "0.1.0",
+  "description": "Code review plugin — spec review, issue-to-spec, PR feedback handling, and self-review loop (forked from djenriquez-core)"
+}
