@@ -1,0 +1,22 @@
+{
+  "_comment": "Copy to claude_settings.local.json and customize. Merged on top of claude_settings.json at install time.",
+  "permissions": {
+    "additionalDirectories": [
+      "~/Workspace",
+      "~/Documents/notes"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay '~/.claude/sounds/notification.wav' &",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

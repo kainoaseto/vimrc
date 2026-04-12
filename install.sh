@@ -1,18 +1,26 @@
-# Preflight checks
-command -v jq >/dev/null 2>&1 || {
-  echo "jq is required but not found"
-  exit 1
-}
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Delete old stuff
-#  ~/.config/nvim \
-#  ~/.editorconfig \
-#  ~/.gitconfig \
-#  ~/.gitignore \
-#  ~/.local/share/nvim \
-#  ~/.tmux.conf \
-#  ~/.tmux/ \
-#  ~/.vsnip \
+# Resolve the directory where this script lives (the repo root)
+INSTALL_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# --- Preflight checks ---
+command -v jq >/dev/null 2>&1 || { echo "error: jq is required but not found"; exit 1; }
+command -v git >/dev/null 2>&1 || { echo "error: git is required but not found"; exit 1; }
+
+echo "Installing from: $INSTALL_DIR"
+
+# --- Third-party dependencies ---
+# bits (https://github.com/abatilo/bits) — task tracking plugin for Claude Code
+BITS_DIR="${BITS_DIR:-$INSTALL_DIR/../bits}"
+if [ ! -d "$BITS_DIR" ]; then
+  echo "Cloning third-party dependency: abatilo/bits -> $BITS_DIR"
+  git clone https://github.com/abatilo/bits.git "$BITS_DIR"
+fi
+BITS_DIR="$(cd "$BITS_DIR" && pwd)" # resolve to absolute path
+echo "bits plugin: $BITS_DIR"
+
+# --- Clean up previous install ---
 rm -rf \
   ~/.claude/commands \
   ~/.claude/agents \
@@ -23,92 +31,64 @@ rm -rf \
 rm -f \
   ~/.codex/AGENTS.md \
   ~/.codex/config.toml
-#  ~/.config/ghostty/config \
-#  ~/.config/gh-dash/config.yml \
 
-# Create nvim directory
-#mkdir -p ~/.config/
-#ln -s "$PWD/nvim/" ~/.config/nvim
-
-#ln -s "$PWD/.vsnip/" ~/.vsnip
-
-# Set a default global .gitconfig
-#ln -s "$PWD/.gitconfig_global" ~/.gitconfig
-
-# Set a default global .gitignore
-#ln -s "$PWD/.gitignore_global" ~/.gitignore
-
-# Install a default global .editorconfig
-#ln -s "$PWD/.editorconfig_global" ~/.editorconfig
-
-#mkdir -p ~/.config/ghostty
-#ln -s "$PWD/ghostty_config" ~/.config/ghostty/config
-
-#mkdir -p ~/.config/gh-dash
-#ln -s "$PWD/gh-dash-config.yml" ~/.config/gh-dash/config.yml
-
-# Set up Claude Code configuration
+# --- Claude Code ---
 mkdir -p ~/.claude
-ln -s "$PWD/CLAUDE_global.md" ~/.claude/CLAUDE.md
-ln -s "$PWD/claude_settings.json" ~/.claude/settings.json
-ln -s "$PWD/rules" ~/.claude/rules # rules must stay as symlink (not supported in plugins)
-# commands, skills, and agents are now provided via plugins
-# plugins configured via extraKnownMarketplaces in claude_settings.json
 
-# Set global MCP servers in ~/.claude.json (authoritative)
-[ -f ~/.claude.json ] || echo '{}' >~/.claude.json
+# Generate settings.json from template
+sed -e "s|__INSTALL_DIR__|${INSTALL_DIR}|g" \
+    -e "s|__BITS_DIR__|${BITS_DIR}|g" \
+    "$INSTALL_DIR/claude_settings.json" > ~/.claude/settings.json
+
+# Merge local overrides if they exist
+if [ -f "$INSTALL_DIR/claude_settings.local.json" ]; then
+  echo "Merging local overrides from claude_settings.local.json"
+  tmp=$(mktemp)
+  jq -s '.[0] * .[1]' ~/.claude/settings.json "$INSTALL_DIR/claude_settings.local.json" > "$tmp" \
+    && mv "$tmp" ~/.claude/settings.json
+elif [ -f "$INSTALL_DIR/claude_settings.local.json.example" ]; then
+  echo "No claude_settings.local.json found."
+  echo "  Copy the example to get started:"
+  echo "  cp claude_settings.local.json.example claude_settings.local.json"
+fi
+
+# Symlink rules (not supported in plugins, must be a direct symlink)
+ln -s "$INSTALL_DIR/rules" ~/.claude/rules
+
+# Symlink global instructions
+ln -s "$INSTALL_DIR/CLAUDE_global.md" ~/.claude/CLAUDE.md
+
+# Set global MCP servers in ~/.claude.json
+[ -f ~/.claude.json ] || echo '{}' > ~/.claude.json
 tmp=$(mktemp)
-jq \
-  '.mcpServers = {
-    "codex": {
-      "type": "stdio",
-      "command": "codex",
-      "args": [
-        "mcp-server"
-      ],
-      "env": {}
-    },
-    "jira": {
-      "type": "http",
-      "url": "https://mcp.atlassian.com/v1/mcp"
-    },
-    "coreweave": {
-      "type": "http",
-      "url": "https://docs.coreweave.com/mcp"
-    }
-  }' ~/.claude.json >"$tmp" && mv "$tmp" ~/.claude.json
+jq '.mcpServers = {
+  "codex": {
+    "type": "stdio",
+    "command": "codex",
+    "args": ["mcp-server"],
+    "env": {}
+  },
+  "jira": {
+    "type": "http",
+    "url": "https://mcp.atlassian.com/v1/mcp"
+  }
+}' ~/.claude.json > "$tmp" && mv "$tmp" ~/.claude.json
 
-# Set up codex cli configuration
+# --- Codex CLI ---
 mkdir -p ~/.codex
-ln -s "$PWD/AGENTS_global.md" ~/.codex/AGENTS.md
-ln -s "$PWD/codex_config.toml" ~/.codex/config.toml
 
-# Ensure trailing newline before appending
-#[ -z "$(tail -c1 ~/.zshrc)" ] || echo "" >>~/.zshrc
-#grep -q "# vim related" ~/.zshrc || echo "# vim related" >>~/.zshrc
-#grep -q "set -o vi" ~/.zshrc || echo "set -o vi" >>~/.zshrc
-#grep -q "alias vi=" ~/.zshrc || echo "alias vi='nvim'" >>~/.zshrc
-#grep -q "alias vim=" ~/.zshrc || echo "alias vim='nvim'" >>~/.zshrc
-#grep -q "export EDITOR=nvim" ~/.zshrc || echo "export EDITOR=nvim" >>~/.zshrc
-#
-#grep -q "# Use ripgrep for fzf" ~/.zshrc || echo "# Use ripgrep for fzf" >>~/.zshrc
-#grep -q "export FZF_DEFAULT_COMMAND=" ~/.zshrc || echo "export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g \"!{.git,node_modules}/*\" 2> /dev/null'" >>~/.zshrc
-## shellcheck disable=SC2016
-#grep -q 'export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"' ~/.zshrc || echo 'export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"' >>~/.zshrc
-#
-#grep -q "# Set 'infinite' zsh history" ~/.zshrc || echo "# Set 'infinite' zsh history" >>~/.zshrc
-#grep -q "HISTFILE=~/.zsh_history" ~/.zshrc || echo "HISTFILE=~/.zsh_history" >>~/.zshrc
-#grep -q "HISTSIZE=100000" ~/.zshrc || echo "HISTSIZE=100000" >>~/.zshrc
-#grep -q "SAVEHIST=" ~/.zshrc || echo "SAVEHIST=1000000" >>~/.zshrc
-#grep -q "setopt appendhistory" ~/.zshrc || echo "setopt appendhistory" >>~/.zshrc
-#
-#grep -qF "octo()" ~/.zshrc || echo "octo() { vim -c \"Octo pr edit \$1\" }" >>~/.zshrc
-#grep -qF "ask()" ~/.zshrc || echo "ask() { gh models run gpt-4.1 \$1 }" >>~/.zshrc
-#grep -q "export PAGER=" ~/.zshrc || echo "export PAGER=" >>~/.zshrc
-#grep -qF "tmpdir()" ~/.zshrc || cat <<'EOF' >>~/.zshrc
-#tmpdir() {
-  #pushd "$(mktemp -d)"
-#}
-#EOF
+# Generate codex config from template
+sed "s|__INSTALL_DIR__|${INSTALL_DIR}|g" "$INSTALL_DIR/codex_config.toml" > ~/.codex/config.toml
 
-#echo "Install tmux then run the tmux.sh"
+# Symlink codex agent instructions
+ln -s "$INSTALL_DIR/AGENTS_global.md" ~/.codex/AGENTS.md
+
+echo ""
+echo "Done. Claude Code and Codex CLI configured."
+echo ""
+echo "Third-party dependencies:"
+echo "  bits (abatilo/bits): $BITS_DIR"
+echo ""
+echo "To customize personal settings (extra directories, hooks, etc.):"
+echo "  cp claude_settings.local.json.example claude_settings.local.json"
+echo "  # edit claude_settings.local.json, then re-run ./install.sh"

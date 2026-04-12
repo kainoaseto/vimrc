@@ -38,51 +38,27 @@
       "WebFetch(domain:*)",
       "mcp__deepwiki"
     ],
-    "defaultMode": "bypassPermissions",
-    "additionalDirectories": [
-      "/Users/kseto/Workspace",
-      "/Users/kseto/Documents/notes"
-    ]
+    "defaultMode": "bypassPermissions"
   },
   "model": "opus[1m]",
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "afplay '/Users/kseto/.claude/sounds/se000.win32#50.wav' &",
-            "async": true
-          }
-        ]
-      }
-    ]
-  },
   "enabledPlugins": {
     "bits@bits-plugins": true,
     "kainoaseto-core@kainoaseto-plugins": true,
     "claude-code-wakatime@wakatime": true,
     "gopls-lsp@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true,
-    "support@cw-plugins": true
+    "skill-creator@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "kainoaseto-plugins": {
       "source": {
         "source": "directory",
-        "path": "/Users/kseto/Workspace/vimrc/plugins"
+        "path": "__INSTALL_DIR__/plugins"
       }
     },
     "bits-plugins": {
       "source": {
         "source": "directory",
-        "path": "/Users/kseto/Workspace/bits"
-      }
-    },
-    "cw-plugins": {
-      "source": {
-        "source": "github",
-        "repo": "coreweave/cw-claude-code-marketplace"
+        "path": "__BITS_DIR__"
       }
     }
   },
