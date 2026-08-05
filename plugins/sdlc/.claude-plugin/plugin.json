@@ -1,0 +1,5 @@
+{
+  "name": "sdlc",
+  "version": "0.1.0",
+  "description": "Issue-first SDLC ship flow — self-healing branch names, gated agent merges (auto-ship), one-command machine setup"
+}

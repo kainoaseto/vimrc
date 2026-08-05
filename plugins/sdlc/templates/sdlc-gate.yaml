@@ -1,0 +1,69 @@
+# Enforces the issue-first SDLC on every PR — instructions don't block merges,
+# required checks do (instructions alone were bypassed in practice).
+#
+#   1. Head branch must be <author-login>/<type>/<slug> — the login must match
+#      the PR author, types mirror the PR Title Check.
+#   2. The PR must close a linked issue (GraphQL closingIssuesReferences — the
+#      same signal as the Development sidebar; body keywords like "Closes #N"
+#      populate it).
+#
+# Exempt: release-please--* branches, bot authors, and PRs carrying the
+# maintainer-applied `sdlc-exempt` label (visible on the PR, auditable).
+name: SDLC Gate
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  gate:
+    name: SDLC gate
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+      # closingIssuesReferences resolves to issues — without issues:read the
+      # GraphQL field comes back empty and every PR reads as unlinked.
+      issues: read
+    steps:
+      - name: Branch naming + linked issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REF: ${{ github.head_ref }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          LABELS: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
+        run: |
+          case "$HEAD_REF" in
+            release-please--*) echo "release-please branch — exempt"; exit 0 ;;
+          esac
+          case "$AUTHOR" in
+            *"[bot]") echo "bot author — exempt"; exit 0 ;;
+          esac
+          for l in $LABELS; do
+            [ "$l" = "sdlc-exempt" ] && { echo "sdlc-exempt label present — bypassing (auditable on the PR)"; exit 0; }
+          done
+
+          if ! printf '%s' "$HEAD_REF" | grep -Eq "^$AUTHOR/(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)/[a-z0-9._-]+$"; then
+            echo "::error::head branch '$HEAD_REF' must be '$AUTHOR/<type>/<slug>' (types mirror the PR Title Check; slug is lowercase [a-z0-9._-]). Create it with .claude/skills/ship/scripts/new-branch.sh"
+            exit 1
+          fi
+
+          # closingIssuesReferences is indexed asynchronously after a PR opens —
+          # a gate that runs within seconds sees 0 for a moment. Retry briefly
+          # before declaring the PR unlinked.
+          LINKED=0
+          for attempt in 1 2 3 4; do
+            LINKED=$(gh api graphql \
+              -f query='query($o:String!,$r:String!,$n:Int!){repository(owner:$o,name:$r){pullRequest(number:$n){closingIssuesReferences(first:1){totalCount}}}}' \
+              -f o="${REPO%/*}" -f r="${REPO#*/}" -F n="$PR" \
+              -q '.data.repository.pullRequest.closingIssuesReferences.totalCount // 0' || echo 0)
+            [ "${LINKED:-0}" -gt 0 ] && break
+            [ "$attempt" -lt 4 ] && sleep 10
+          done
+          if [ "${LINKED:-0}" -eq 0 ]; then
+            echo "::error::no linked closing issue — every PR closes an issue (put 'Closes #N' in the body, or file one with /file-issue; /ship auto-files one). Maintainers can apply the sdlc-exempt label as an audited bypass."
+            exit 1
+          fi
+          echo "gate passed: branch '$HEAD_REF' by @$AUTHOR, linked closing issues: $LINKED"

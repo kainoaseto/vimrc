@@ -13,6 +13,11 @@
       "name": "code-reviewer",
       "source": "./plugins/code-reviewer",
       "description": "Multi-agent code and spec review — spec review, issue-to-spec, PR feedback handling, and self-review loop"
+    },
+    {
+      "name": "sdlc",
+      "source": "./plugins/sdlc",
+      "description": "Issue-first SDLC ship flow — self-healing branch names, gated agent merges (auto-ship), one-command machine setup"
     }
   ]
 }
