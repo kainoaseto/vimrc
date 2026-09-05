@@ -2,7 +2,7 @@
 name: correctness-reviewer
 description: "Correctness & logic specialist for code review teams"
 memory: local
-model: inherit
+model: sonnet
 tools:
   - Read
   - Glob

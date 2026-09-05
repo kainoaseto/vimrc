@@ -2,7 +2,7 @@
 name: maintainability-reviewer
 description: "Maintainability & evolvability specialist for code review teams"
 memory: local
-model: inherit
+model: sonnet
 tools:
   - Read
   - Glob

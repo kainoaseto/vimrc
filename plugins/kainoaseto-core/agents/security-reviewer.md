@@ -2,7 +2,7 @@
 name: security-reviewer
 description: "Security specialist for code review teams"
 memory: local
-model: inherit
+model: opus
 tools:
   - Read
   - Glob

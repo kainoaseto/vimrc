@@ -2,7 +2,7 @@
 name: performance-reviewer
 description: "Performance & efficiency specialist for code review teams"
 memory: local
-model: inherit
+model: sonnet
 tools:
   - Read
   - Glob

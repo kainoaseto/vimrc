@@ -2,7 +2,7 @@
 name: governance-reviewer
 description: "Change governance & risk specialist for code review teams"
 memory: local
-model: inherit
+model: sonnet
 tools:
   - Read
   - Glob

@@ -2,7 +2,7 @@
 name: architecture-reviewer
 description: "Architecture & design specialist for code review teams"
 memory: local
-model: inherit
+model: opus
 tools:
   - Read
   - Glob

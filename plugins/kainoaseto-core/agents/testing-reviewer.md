@@ -2,7 +2,7 @@
 name: testing-reviewer
 description: "Testing & verification specialist for code review teams"
 memory: local
-model: inherit
+model: sonnet
 tools:
   - Read
   - Glob
