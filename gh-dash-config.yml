@@ -63,7 +63,6 @@ keybindings:
   issues: []
   branches: []
 repoPaths:
-  coreweave/*: ~/work/*
   mentallyanimated/*: ~/mentallyanimated/*
 theme:
   ui:

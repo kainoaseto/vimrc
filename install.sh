@@ -69,10 +69,6 @@ jq \
         "mcp-server"
       ],
       "env": {}
-    },
-    "coreweave": {
-      "type": "http",
-      "url": "https://docs.coreweave.com/mcp"
     }
   } + (.mcpServers // {}))' ~/.claude.json >"$tmp" && mv "$tmp" ~/.claude.json
 
