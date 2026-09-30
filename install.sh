@@ -55,11 +55,13 @@ ln -s "$PWD/rules" ~/.claude/rules # rules must stay as symlink (not supported i
 # commands, skills, and agents are now provided via plugins
 # plugins configured via extraKnownMarketplaces in claude_settings.json
 
-# Set global MCP servers in ~/.claude.json (authoritative)
+# Add these global MCP servers to ~/.claude.json. A merge, not a replace:
+# servers already there (hindsight, mobbin, workos, a tuned codex) are kept,
+# and an existing entry with the same name wins over the default below.
 [ -f ~/.claude.json ] || echo '{}' >~/.claude.json
 tmp=$(mktemp)
 jq \
-  '.mcpServers = {
+  '.mcpServers = ({
     "codex": {
       "type": "stdio",
       "command": "codex",
@@ -68,15 +70,11 @@ jq \
       ],
       "env": {}
     },
-    "jira": {
-      "type": "http",
-      "url": "https://mcp.atlassian.com/v1/mcp"
-    },
     "coreweave": {
       "type": "http",
       "url": "https://docs.coreweave.com/mcp"
     }
-  }' ~/.claude.json >"$tmp" && mv "$tmp" ~/.claude.json
+  } + (.mcpServers // {}))' ~/.claude.json >"$tmp" && mv "$tmp" ~/.claude.json
 
 # Set up codex cli configuration
 mkdir -p ~/.codex
