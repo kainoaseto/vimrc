@@ -5,7 +5,7 @@ Fable is the session's core model: judgment, planning, design, filing. It is nev
 ## What the config does
 
 - `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` in `~/.claude/settings.json`: a spawn that omits `model:` lands on the `[sonnet]` tier, never on the session model. Tags still route: an explicit `model:` on the Agent call wins over the pin (Claude Code >= 2.1.251; measured 2026-09-04 on 2.1.261).
-- Tiers are aliases resolved by the `ANTHROPIC_DEFAULT_*_MODEL` remaps in the same file (2026-09: `haiku` -> Sonnet 5, `sonnet` -> Opus 4.6, `opus` -> Opus 5). Edit the remap, never the callers.
+- Tiers are aliases resolved by the `ANTHROPIC_DEFAULT_*_MODEL` remaps in the same file (2026-09: `haiku` -> Sonnet 5, `sonnet` -> Opus 4.6, `opus` -> Opus 5.5). Edit the remap, never the callers.
 - A project `.claude/settings.json` overrides the user pin per key, and the sdlc init template seeds `CLAUDE_CODE_SUBAGENT_MODEL=inherit` into every adopting repo (measured 2026-09-04 in an sdlc-adopting repo: the hook sees `inherit` there, `sonnet` elsewhere). Inside such a repo an omitted `model:` means Fable again, which is why the hook reads the effective value instead of trusting the user setting.
 - `hooks/gate-fable-subagents.sh` (PreToolUse on `Agent|Workflow`) turns every remaining path to Fable into a permission prompt: `subagent_type: fork`, `model: fable|claude-fable-*|inherit`, a general-purpose spawn with no `model:` while the effective pin is unset or `inherit`, a custom or `Plan` agent spawned with no `model:`, a Workflow script that names fable. The prompt IS the approval; nothing else counts.
 
