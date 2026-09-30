@@ -51,15 +51,6 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay '/Users/kainoa/.claude/sounds/se000.win32#50.wav' &",
-            "async": true
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
             "command": "node \"/Users/kainoa/.hindsight/coding-agents/dist/claude-stop-hook.js\"",
             "timeout": 60
           }
@@ -114,7 +105,8 @@
     "skill-creator@claude-plugins-official": false,
     "vercel@claude-plugins-official": false,
     "sdlc@drawdownhq": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "cloudflare@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "kainoaseto-plugins": {

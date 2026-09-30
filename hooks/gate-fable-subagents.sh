@@ -2,8 +2,8 @@
 # gate-fable-subagents.sh -- PreToolUse hook on Agent|Workflow (claude_settings.json).
 #
 # Rule: a subagent never runs on the session's core model (Fable) without the
-# user's explicit approval. CLAUDE_CODE_SUBAGENT_MODEL=sonnet makes an omitted
-# model land on the [sonnet] tier, and an explicit model: still wins over that
+# user's explicit approval. CLAUDE_CODE_SUBAGENT_MODEL=opus makes an omitted
+# model land on the [opus] tier, and an explicit model: still wins over that
 # pin (measured 2026-09-04 on Claude Code 2.1.261 -- precedence changed in
 # 2.1.251; before that the pin overrode every tag). So the only paths left to
 # Fable are the ones this script turns into a permission prompt:
