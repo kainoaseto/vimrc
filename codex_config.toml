@@ -6,13 +6,14 @@ model_auto_compact_token_limit = 630000
 model_verbosity = "high"
 file_opener = "none"
 show_raw_agent_reasoning = true
-sandbox_mode = "danger-full-access"
-approval_policy = "never"
-notify = ["codex-wakatime"]
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
 model_instructions_file = "/Users/kainoa/Workspace/vimrc/codex_mcp_instructions.md"
 personality = "pragmatic"
 web_search = "live"
 service_tier = "fast"
+
+notify = ["/Users/kainoa/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended", "--previous-notify", "[\"codex-wakatime\"]"]
 
 [shell_environment_policy]
 inherit = "all"
@@ -28,8 +29,134 @@ args = ["chrome-devtools-mcp@latest", "--auto-connect"]
 [features]
 hooks = true
 context_management = true
+memories = false
+chronicle = false
+
+[desktop]
+followUpQueueMode = "steer"
+conversationDetailMode = "STEPS_PROSE"
+ambient-suggestions-enabled = false
+preventSleepWhileRunning = true
+show-context-window-usage = true
+git-pull-request-merge-method = "squash"
+git-branch-prefix = "codex/kseto/"
+worktree-upstream-refresh-mode = "best-effort"
+avatar-overlay-pet-visible = false
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/Users/kainoa/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/Users/kainoa/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = false
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[projects."/Users/kainoa/Documents/Codex/2026-09-12/d"]
+trust_level = "trusted"
+
+[projects."/Users/kainoa/.codex/.chatgpt-projects/g-p-6a7a6a0097e48191ae60308561d41bc7"]
+trust_level = "trusted"
+
+[projects."/Users/kainoa/Workspace/drawdown"]
+trust_level = "trusted"
+
+[projects."/Users/kainoa/Workspace/drawdown/app"]
+trust_level = "trusted"
+
+[apps.connector_openai_codex_document_control]
+enabled = false
+
+[sandbox_workspace_write]
+network_access = true
+
+[memories]
+generate_memories = false
+use_memories = false
+
+[tui.model_availability_nux]
+gpt-6-astra = 1
+
+[hooks.state]
+
+[hooks.state."/Users/kainoa/.codex/hooks.json:session_start:0:0"]
+trusted_hash = "sha256:f59f8cca2071921f627a5260a4e07695e2ffcd292aacc76614c2916fcd984b98"
+enabled = true
+
+[hooks.state."/Users/kainoa/.codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:9994e99eea901f39770ffc7c7e6f21bdc48f5039f52838fef1f92f66f804108f"
+
+[hooks.state."/Users/kainoa/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:23d60b552e27b2834208020d52eb991df0bc4394bd14a59e1e2edddc17e275e4"
 
 [mcp_servers.hindsight]
 command = "node"
 args = ["/Users/kainoa/.hindsight/coding-agents/dist/mcp-server.js"]
 env = { HINDSIGHT_MCP_HARNESS = "codex" }
+
+[mcp_servers.hindsight.tools.hindsight_search_knowledge_pages]
+approval_mode = "approve"
+
+[mcp_servers.hindsight.tools.hindsight_diagnose]
+approval_mode = "approve"
+
+[mcp_servers.hindsight.tools.hindsight_sync_status]
+approval_mode = "approve"
+
+[mcp_servers.hindsight.tools.hindsight_list_knowledge_pages]
+approval_mode = "approve"
+
+[mcp_servers.hindsight.tools.hindsight_read_knowledge_page]
+approval_mode = "approve"
+
+[mcp_servers.hindsight.tools.hindsight_ingest_document]
+approval_mode = "approve"
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/kainoa/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/kainoa/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/kainoa/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
