@@ -36,11 +36,6 @@ defaults -currentHost write -g AppleFontSmoothing -int 0
 Run the following command:
 `./install.sh`
 
-## Claude Code Plugin
+## AI Agent Config
 
-This repo includes a Claude Code plugin marketplace. To install:
-
-```bash
-/plugin marketplace add kainoaseto/vimrc
-/plugin install kainoaseto-core@kainoaseto-plugins
-```
+AI agent configuration (Claude Code, Codex, Hindsight) lives in [kainoaseto/sdlc](https://github.com/kainoaseto/sdlc) under `profile/kainoa/`.
