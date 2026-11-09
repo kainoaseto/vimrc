@@ -1,9 +1,3 @@
-# Preflight checks
-command -v jq >/dev/null 2>&1 || {
-  echo "jq is required but not found"
-  exit 1
-}
-
 # Delete old stuff
 #  ~/.config/nvim \
 #  ~/.editorconfig \
@@ -13,16 +7,6 @@ command -v jq >/dev/null 2>&1 || {
 #  ~/.tmux.conf \
 #  ~/.tmux/ \
 #  ~/.vsnip \
-rm -rf \
-  ~/.claude/commands \
-  ~/.claude/agents \
-  ~/.claude/skills \
-  ~/.claude/rules \
-  ~/.claude/CLAUDE.md \
-  ~/.claude/settings.json
-rm -f \
-  ~/.codex/AGENTS.md \
-  ~/.codex/config.toml
 #  ~/.config/ghostty/config \
 #  ~/.config/gh-dash/config.yml \
 
@@ -46,36 +30,6 @@ rm -f \
 
 #mkdir -p ~/.config/gh-dash
 #ln -s "$PWD/gh-dash-config.yml" ~/.config/gh-dash/config.yml
-
-# Set up Claude Code configuration
-mkdir -p ~/.claude
-ln -s "$PWD/CLAUDE_global.md" ~/.claude/CLAUDE.md
-ln -s "$PWD/claude_settings.json" ~/.claude/settings.json
-ln -s "$PWD/rules" ~/.claude/rules # rules must stay as symlink (not supported in plugins)
-# commands, skills, and agents are now provided via plugins
-# plugins configured via extraKnownMarketplaces in claude_settings.json
-
-# Add these global MCP servers to ~/.claude.json. A merge, not a replace:
-# servers already there (hindsight, mobbin, workos, a tuned codex) are kept,
-# and an existing entry with the same name wins over the default below.
-[ -f ~/.claude.json ] || echo '{}' >~/.claude.json
-tmp=$(mktemp)
-jq \
-  '.mcpServers = ({
-    "codex": {
-      "type": "stdio",
-      "command": "codex",
-      "args": [
-        "mcp-server"
-      ],
-      "env": {}
-    }
-  } + (.mcpServers // {}))' ~/.claude.json >"$tmp" && mv "$tmp" ~/.claude.json
-
-# Set up codex cli configuration
-mkdir -p ~/.codex
-ln -s "$PWD/AGENTS_global.md" ~/.codex/AGENTS.md
-ln -s "$PWD/codex_config.toml" ~/.codex/config.toml
 
 # Ensure trailing newline before appending
 #[ -z "$(tail -c1 ~/.zshrc)" ] || echo "" >>~/.zshrc
